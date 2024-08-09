@@ -1,5 +1,5 @@
 import { useReducer, useEffect } from "react";
-import {Settings} from "../utils/db"
+import { Settings } from "../utils/db"
 import { useSettings } from "./useSettings";
 
 type PomodoroMode = "focus" | "shortBreak" | "longBreak";
@@ -35,7 +35,6 @@ const pomodoroReducer = (state: PomodoroState, action: PomodoroAction) :Pomodoro
       if (state.mode === "focus") {
         newMode = newSessionCompleted % 4 === 0 ? "longBreak" : "shortBreak";
       }
-      
       //TODO: Save session to to db
       return{
         ...state,
