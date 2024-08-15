@@ -25,7 +25,11 @@ export const useTodos = () => {
             console.error("fail to add todos", error);
         }
     }
-    const deleteTodo = async (id: number) => {
+    const deleteTodo = async (id: number | undefined) => {
+        if(id === undefined) {
+            console.error(`Todo with id ${id} can not be undefined!`)
+            return;
+        }
         try {
             setTodos(prevTodos => prevTodos.filter( todo => todo.id !==id));
             await db.todos.delete(id);
@@ -35,22 +39,26 @@ export const useTodos = () => {
     }
 
     type TodoUpdate = Omit<Partial<Todo>, "id">
-    const updateTodo = async (id:number, newTodo: TodoUpdate) => {
+    const updateTodo = async (id:number | undefined, newTodo: TodoUpdate) => {
         const existingTodo = todos.find( todo => todo.id === id)
         if(!existingTodo){
             console.error(`Todo with id ${id} not found!`)
             return
         }
-        const updatedTodo = {...existingTodo , ...newTodo};
-       try {
+        if(id === undefined) {
+            console.error(`Todo with id ${id} can not be undefined!`)
+            return;
+        }
+        try {
+            const updatedTodo = {...existingTodo , ...newTodo};
             setTodos(prevTodos => prevTodos.map (todo => todo.id ===id ? updatedTodo : todo));    
             await db.todos.update(id, updatedTodo);
-       } catch (error) {
+        } catch (error) {
             console.error("fail to update todos", error);
-       }
+        }
     }
 
-    const completeTodo = (id:number) => {
+    const completeTodo = (id:number | undefined) => {
         updateTodo(id, {completed: true});
     }
 

@@ -5,6 +5,7 @@ export interface Todo {
     id?: number;
     title: string;
     completed: boolean;
+    timeSpend: number;
 }
 
 // PomodoroSession interface
@@ -34,7 +35,7 @@ const db = new Dexie('AppDatabase') as Dexie & {
 }
 
 db.version(1).stores({
-    todos: '++id, title, completed',
+    todos: '++id, title, completed, timeSpend',
     pomodoroSessions: '++id, startTime, duration, todoId',
     settings: '++id'
 })
