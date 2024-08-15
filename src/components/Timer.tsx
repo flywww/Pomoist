@@ -13,8 +13,8 @@ export const Timer = () => {
     return(
         <>
             <h2> {minutes} : {seconds} </h2>
-            <button onClick={startTimer}> Start </button>
-            <button onClick={pauseTimer}> Pause </button>
+            <button onClick={startTimer}> Start/temp/ </button>
+            <button onClick={pauseTimer}> Pause/temp/ </button>
             <button onClick={resetTimer}> Reset </button>
         </>
     )
