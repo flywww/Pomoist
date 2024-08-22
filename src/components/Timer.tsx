@@ -7,15 +7,13 @@ export const Timer = () => {
     if (!pomodoroContext) {
         throw new Error("Timer must be used within a PomodoroProvider");
     }
-    const {time, startTimer, pauseTimer, resetTimer} = pomodoroContext;
+    const {time, mode, resetTimer} = pomodoroContext;
     const minutes:string = (Math.floor(time/60)).toString().padStart(2,'0');
     const seconds:string = (time%60).toString().padStart(2, '0');
     return(
         <>
             <h2> {minutes} : {seconds} </h2>
-            <button onClick={startTimer}> Start/temp/ </button>
-            <button onClick={pauseTimer}> Pause/temp/ </button>
-            <button onClick={resetTimer}> Reset </button>
+            {mode !== "focus" && <button onClick={resetTimer}> Skip Break </button>}
         </>
     )
 }

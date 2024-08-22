@@ -3,9 +3,7 @@ import { TodoContext } from "./todoContext"
 import {db, Todo} from "../utils/db"
 
 export const TodoProvider: React.FC<{children: React.ReactNode}> = ({children}) => {
-
     const [todos, setTodos] = useState<Todo[]>([]);
-
     const loadTodos = useCallback(async() => {
         try {
             const loadedTodos = await db.todos.toArray();
@@ -14,6 +12,16 @@ export const TodoProvider: React.FC<{children: React.ReactNode}> = ({children}) 
             console.error("fail to load todos", error);
         }
     } ,[]);
+
+    const getTodo = useCallback(async (id:number) :Promise<Todo | undefined> => {
+        try {
+            const todo: Todo | undefined = await db.todos.get(id);
+            return todo;
+        } catch (error) {
+            console.error(`Error fetching todo with id: ${id}`, error);
+            return undefined;
+        }
+    },[])
 
     const addTodo = useCallback(async (todo: Todo) => {
         try {
@@ -25,6 +33,7 @@ export const TodoProvider: React.FC<{children: React.ReactNode}> = ({children}) 
             console.error("fail to add todos", error);
         }
     },[loadTodos])
+
     const deleteTodo = useCallback(async (id: number | undefined) => {
         if(id === undefined) {
             console.error(`Todo with id ${id} can not be undefined!`)
@@ -59,26 +68,37 @@ export const TodoProvider: React.FC<{children: React.ReactNode}> = ({children}) 
         }
     },[loadTodos, todos])
 
-    const completeTodo = useCallback((id:number | undefined) => {
-        updateTodo(id, {completed: true});
-    },[updateTodo])
-
-    const getTodo = useCallback(async (id:number) :Promise<Todo | undefined> => {
-        try {
-            const todo: Todo | undefined = await db.todos.get(id);
-            return todo;
-        } catch (error) {
-            console.error(`Error fetching todo with id: ${id}`, error);
-            return undefined;
+    const updateTodoTimeSpend = useCallback(async (id:number | undefined, timeSpend: number) => {
+        if(id === undefined) {
+            console.error(`Todo with id ${id} can not be undefined!`)
+            return;
         }
-    },[])
+        try {
+            const prevTodo = await getTodo(id);
+            if(prevTodo){
+                const prevTodoTimeSpend: number = prevTodo?.timeSpend;
+                await updateTodo(id, {timeSpend: (prevTodoTimeSpend + timeSpend)});
+            }
+        } catch (error) {
+            console.error(`Error update todo timeSpend with id: ${id}`, error)
+        }
+    }, [updateTodo, getTodo])
+
+    const completeTodo = useCallback(async (id:number | undefined) => {
+        try {
+            await updateTodo(id, {completed: true});
+        } catch (error) {
+            console.error(`Error complete todo with id: ${id}`, error);
+        }
+        
+    },[updateTodo])
 
     useEffect(() => {
         loadTodos();
     }, [loadTodos]);
 
     return(
-        <TodoContext.Provider value={{todos, getTodo, addTodo, deleteTodo, updateTodo, completeTodo}}>
+        <TodoContext.Provider value={{todos, getTodo, addTodo, deleteTodo, updateTodo, updateTodoTimeSpend, completeTodo}}>
             {children}
         </TodoContext.Provider>
     )

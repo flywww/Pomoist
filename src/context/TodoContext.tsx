@@ -5,9 +5,10 @@ export interface TodoContextType {
     todos: Todo[];
     addTodo: (todo: Todo) => void;
     deleteTodo: (id:number | undefined) => void;
-    updateTodo: (id:number | undefined, todo: Todo) => void;
+    updateTodo: (id:number | undefined, todo: Omit<Partial<Todo>, "id">) => void;
+    updateTodoTimeSpend: (id:number | undefined, timeSpend: number) => void;
     completeTodo: (id:number | undefined) => void;
-    getTodo: (id: number) => Promise<Todo | undefined>
+    getTodo: (id: number) => Promise<Todo | undefined>;
 }
 
 export const TodoContext = createContext<TodoContextType | undefined>(undefined);

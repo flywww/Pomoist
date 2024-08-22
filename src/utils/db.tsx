@@ -1,11 +1,14 @@
 import Dexie, { type EntityTable } from "dexie";
 
 // Todo interface
+export type TodoState = "todo" | "doing" | "pending" | "done";
+
 export interface Todo {
     id?: number;
     title: string;
     completed: boolean;
     timeSpend: number;
+    state: TodoState;
 }
 
 // PomodoroSession interface
@@ -35,7 +38,7 @@ const db = new Dexie('AppDatabase') as Dexie & {
 }
 
 db.version(1).stores({
-    todos: '++id, title, completed, timeSpend',
+    todos: '++id, title, completed, timeSpend, state',
     pomodoroSessions: '++id, startTime, duration, todoId',
     settings: '++id'
 })

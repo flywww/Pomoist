@@ -24,16 +24,17 @@ const pomodoroReducer = (state: PomodoroState, action: PomodoroAction) :Pomodoro
     let newSessionCompleted: number;
     let newMode: PomodoroMode;
     let newTime: number;
+    let isActiveForBreak: boolean;
   
     switch (action.type) {
       case "START_TIMER":
         //TODO: if mode is focus then set focusedTodo
-        return {...state, isActive: true}
+        return {...state, isActive: true, onGoingTodoId: action.onGoingTodoId}
       case "PAUSE_TIMER":
         return {...state, isActive: false}
       case "RESET_TIMER":
         //TODO: If mode is focus then update focusedTodo to todo db with timeSpend
-        return {...state, time: action.defaultSettings.focusTime*60, isActive: false }
+        return {...state, time: action.defaultSettings.focusTime*60, isActive: false, onGoingTodoId: undefined, mode: "focus" }
       case "TICK":
         return {...state, time: state.time - 1}
       case "COMPLETE_SESSION":
@@ -43,14 +44,15 @@ const pomodoroReducer = (state: PomodoroState, action: PomodoroAction) :Pomodoro
           newMode = newSessionCompleted % action.defaultSettings.breakInterval === 0 ? "longBreak" : "shortBreak";
         }
         newTime = calculateNewTime(newMode, action.defaultSettings);
-      
+        isActiveForBreak = newMode !== "focus";
         //TODO: Save session to to db
         return{
           ...state,
           mode: newMode,
           time: newTime,
-          isActive: false,
+          isActive: isActiveForBreak,
           sessionCompleted: newSessionCompleted,
+          onGoingTodoId: undefined
         }
       default:
         return state;
@@ -59,13 +61,13 @@ const pomodoroReducer = (state: PomodoroState, action: PomodoroAction) :Pomodoro
 
 export const PomodoroProvider: React.FC< {children: React.ReactNode} > = ({children}) => {
   const {settings} = useSettings();
-    
   //TODO: time Load from session
   const initialState: PomodoroState = {
     mode: "focus",
     time: settings.focusTime * 60,
     isActive: false,
-    sessionCompleted: 0
+    sessionCompleted: 0,
+    onGoingTodoId: undefined
   };
 
   const [state, dispatch] = useReducer(pomodoroReducer, initialState);
@@ -86,7 +88,7 @@ export const PomodoroProvider: React.FC< {children: React.ReactNode} > = ({child
     return () => {clearInterval(interval)};
   }, [state.isActive, state.time, settings])
 
-  const startTimer = useCallback(() => dispatch({type: "START_TIMER"}), []);
+  const startTimer = useCallback((onGoingTodoId:number | undefined) => dispatch({type: "START_TIMER", onGoingTodoId: onGoingTodoId}), []);
   const pauseTimer = useCallback(() => dispatch({type: "PAUSE_TIMER"}), []);
   const resetTimer = useCallback(() => dispatch({type: "RESET_TIMER", defaultSettings: settings}), [settings]);
 
