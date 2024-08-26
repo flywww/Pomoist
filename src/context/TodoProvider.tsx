@@ -76,7 +76,7 @@ export const TodoProvider: React.FC<{children: React.ReactNode}> = ({children}) 
         try {
             const prevTodo = await getTodo(id);
             if(prevTodo){
-                const prevTodoTimeSpend: number = prevTodo?.timeSpend;
+                const prevTodoTimeSpend: number = prevTodo.timeSpend;
                 await updateTodo(id, {timeSpend: (prevTodoTimeSpend + timeSpend)});
             }
         } catch (error) {

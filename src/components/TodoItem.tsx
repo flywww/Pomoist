@@ -1,6 +1,3 @@
-//TODO: If mode is focus then update focusedTodo to todo db with timeSpend
-//TODO: useMemo to improve performance
-
 import { useContext, useState, useEffect, useRef } from "react"
 import { TodoContext } from "../context/todoContext"
 import { PomodoroContext } from "../context/pomodoroContext";
@@ -13,7 +10,7 @@ export const TodoItem = ({ id, title, completed, timeSpend }: Todo) => {
     const [todoState, setTodoState] = useState<TodoState>("todo");
     const todoContext = useContext(TodoContext);
     if (!todoContext) {
-        throw new Error("todo must be used within a TodoProvider")
+        throw new Error("todo must be used within a TodoProvider");
     }
     const pomodoroContext = useContext(PomodoroContext);
     if (!pomodoroContext) {
@@ -37,10 +34,7 @@ export const TodoItem = ({ id, title, completed, timeSpend }: Todo) => {
     }
 
     const handleReset = () => {
-      if (mode === "focus"){
-        console.log("update timeSpend1:",settings.focusTime*60 - time);
-        updateTodoTimeSpend(id, settings.focusTime*60 - time);
-      }
+      mode === "focus" && updateTodoTimeSpend(id, settings.focusTime*60 - time);
       resetTimer();
       setTodoState("todo");
     }
@@ -56,7 +50,6 @@ export const TodoItem = ({ id, title, completed, timeSpend }: Todo) => {
       }
       // If time's up than update timeSpend
       if(todoState === "doing" && time === 0 && mode === "focus"){
-        console.log("update timeSpend2:",settings.focusTime*60);
         updateTodoTimeSpend(id, settings.focusTime*60);
       }
     },[isActive, todoState, time])
@@ -113,7 +106,7 @@ export const TodoItem = ({ id, title, completed, timeSpend }: Todo) => {
                 onChange={ () => completeTodo(id)}
               />
               {renderControlButtons()}
-              <form onSubmit={handleTodoSave}>
+              <form onSubmit={handleTodoSave} style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-start'}}>
                 <input 
                   type="text"  
                   name="todoTitle"

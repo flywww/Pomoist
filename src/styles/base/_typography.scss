@@ -1,0 +1,67 @@
+// Typography
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+  font-family: $font-stack;
+  //color: $primary-color;
+}
+
+h1, h2, h3, h4, h5, h6, small {
+  font-family: $font-stack;
+  font-stretch: normal;
+  font-style: normal;
+  margin-bottom: 1.5rem;
+  color: $secondary-color;
+}
+
+h1 {
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-extrabold;
+  line-height: $line-height-xs;
+  letter-spacing: -0.9px;
+}
+h2 {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-sm;
+  letter-spacing: -0.75px;
+}
+h3 {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-md;
+  letter-spacing: -0.6px;
+}
+h4 {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-lg;
+  letter-spacing: -0.5px;
+}
+@mixin lead {
+  font-family: $font-stack;
+  font-size: $font-size-md;
+  line-height: $line-height-lg;
+}
+@mixin table-head {
+  font-family: $font-stack;
+  font-size: $font-size-sm;
+  font-weight: bold;
+  line-height: $line-height-xxl;
+}
+@mixin paragraph {
+  font-family: $font-stack;
+  font-size: $font-size-sm;
+  line-height: $line-height-xxl;
+}
+small {
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  line-height: $line-height-base;
+  letter-spacing: normal;
+}
+@mixin muted {
+  font-family: $font-stack;
+  font-size: $font-size-base;
+  line-height: $line-height-xl;
+}
