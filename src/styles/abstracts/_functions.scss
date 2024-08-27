@@ -1,0 +1,27 @@
+// Color
+// Tint Function: Lightens a color by a given percentage
+@function tint($color, $percentage) {
+    @return mix(white, $color, $percentage);
+}
+// Shade Function: Darkens a color by a given percentage
+@function shade($color, $percentage) {
+    @return mix(black, $color, $percentage);
+}
+
+// Spacing and sizing
+// Function to convert pixels to rems
+@function rem($pixels, $base: 16px) {
+    @return #{$pixels / $base}rem;
+}
+
+// Function to use breakpoints for responsive design
+$breakpoints: (
+    'sm': 480px,
+    'md': 768px,
+    'lg': 1024px,
+    'xl': 1200px
+);
+
+@function breakpoint($size) {
+    @return map-get($breakpoints, $size);
+}

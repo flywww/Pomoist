@@ -2,6 +2,46 @@
 $primary-color: #111111;
 $secondary-color: #222222;
 
+//TODO:-----
+// Primary Colors
+$primary: #1d4ed8; // Blue
+$primary-light: #60a5fa;
+$primary-dark: #1e3a8a;
+
+// Secondary Colors
+$secondary: #f59e0b; // Amber
+$secondary-light: #fcd34d;
+$secondary-dark: #b45309;
+
+// Neutral Colors
+$background: #ffffff; // White
+$background-light: #f3f4f6; // Light gray background
+$background-dark: #e5e7eb; // Darker gray background
+$text-primary: #111827; // Dark gray for primary text
+$text-secondary: #6b7280; // Medium gray for secondary text
+$text-muted: #9ca3af; // Lighter gray for muted text
+
+// State Colors
+$success: #10b981; // Green
+$warning: #f59e0b; // Yellow
+$error: #ef4444; // Red
+$info: #3b82f6; // Blue
+
+// Border Colors
+$border-color: #d1d5db; // Light gray for borders
+$border-color-dark: #4b5563; // Dark gray for dark mode borders
+
+// Additional Colors
+$overlay: rgba(0, 0, 0, 0.5); // Black overlay with 50% opacity
+
+
+
+//TODO:-----
+
+
+
+
+
 //Font family
 $font-stack: 'Inter', 'Helvetica Neue', Arial, sans-serif;
 
@@ -34,3 +74,25 @@ $line-height-xxl: 1.75;
 $border-radius-sm: 10px;
 $border-radius-md: 12px; 
 $border-radius-lg: 14px;
+
+// Box Shadows //TODO:
+$shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.15);
+
+// Spacing
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-xxl: 48px;
+
+// Z-Index
+$z-index-default: 1;          // Default z-index for general stacking
+$z-index-dropdown: 1000;      // Dropdown menus
+$z-index-sticky: 1020;        // Sticky headers/footers
+$z-index-fixed: 1030;         // Fixed navigation elements
+$z-index-modal-backdrop: 1040;// Modal backdrops/overlays
+$z-index-modal: 1050;         // Modal content
+$z-index-tooltip: 1060;       // Tooltips

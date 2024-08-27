@@ -2,9 +2,54 @@
     transition: $property $duration $ease;
 }
 
-// Abstracts: _mixins.scss
+//Typography
+@mixin lead {
+  font-family: $font-stack;
+  font-size: $font-size-md;
+  line-height: $line-height-lg;
+}
+@mixin table-head {
+  font-family: $font-stack;
+  font-size: $font-size-sm;
+  font-weight: bold;
+  line-height: $line-height-xxl;
+}
+@mixin paragraph {
+  font-family: $font-stack;
+  font-size: $font-size-sm;
+  line-height: $line-height-xxl;
+}
+@mixin muted {
+  font-family: $font-stack;
+  font-size: $font-size-base;
+  line-height: $line-height-xl;
+}
+
+//Layout
 @mixin flex-center {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@mixin grid-container($columns, $gap) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: $gap;
+}
+
+// Utility:
+// Box Shadows
+@mixin box-shadow($shadow) {
+  box-shadow: $shadow;
+}
+
+// Border Radius
+@mixin border-radius($radius) {
+  border-radius: $radius;
+}
+
+// Transition
+@mixin transition($properties, $duration, $timing-function) {
+  transition: $properties $duration $timing-function;
 }

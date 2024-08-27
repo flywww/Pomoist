@@ -38,30 +38,32 @@ h4 {
   line-height: $line-height-lg;
   letter-spacing: -0.5px;
 }
-@mixin lead {
-  font-family: $font-stack;
-  font-size: $font-size-md;
-  line-height: $line-height-lg;
-}
-@mixin table-head {
-  font-family: $font-stack;
-  font-size: $font-size-sm;
-  font-weight: bold;
-  line-height: $line-height-xxl;
-}
-@mixin paragraph {
-  font-family: $font-stack;
-  font-size: $font-size-sm;
-  line-height: $line-height-xxl;
-}
+
 small {
   font-size: $font-size-base;
   font-weight: $font-weight-medium;
   line-height: $line-height-base;
   letter-spacing: normal;
 }
-@mixin muted {
-  font-family: $font-stack;
-  font-size: $font-size-base;
-  line-height: $line-height-xl;
+
+p{
+  @include paragraph;
+  margin-bottom: $spacing-md;
+}
+
+.lead{
+  @include lead;
+  margin-bottom: $spacing-md;
+}
+
+.muted{
+  @include muted;
+}
+
+//Links
+a {
+  color: $primary;
+  &:hover {
+    color: shade($primary, 20%);
+  }
 }
