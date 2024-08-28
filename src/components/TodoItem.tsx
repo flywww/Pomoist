@@ -3,6 +3,15 @@ import { TodoContext } from "../context/todoContext"
 import { PomodoroContext } from "../context/pomodoroContext";
 import { Todo, TodoState } from "../utils/db";
 import { useSettings } from "../hooks/useSettings";
+import { IconSmallButton } from "./IconSmallButton";
+import playImgURL from "../assets/component/button/play.png"
+import pauseImgURL from "../assets/component/button/pause.png"
+import stopImgURL from "../assets/component/button/stop.png"
+import resumeImgURL from "../assets/component/button/resume.png"
+import checkImgURL from "../assets/component/button/check.png"
+import clockImgURL from "../assets/component/button/clock.png"
+import trashImgURL from "../assets/component/button/trash.png"
+import editImgURL from "../assets/component/button/edit.png"
 
 export const TodoItem = ({ id, title, completed, timeSpend }: Todo) => {
 
@@ -57,20 +66,47 @@ export const TodoItem = ({ id, title, completed, timeSpend }: Todo) => {
     //Control buttons render functions
     const renderControlButtons = () => {
       if(todoState === "todo" && !isActive && onGoingTodoId === undefined && mode === "focus"){
-        return <button onClick={handleStart}> Start </button>
+        return (
+          <IconSmallButton 
+            onClick={handleStart}
+            buttonColor="primary"
+            imgURL={playImgURL}
+            imgDescribe="Start timer"
+          />
+        )
       }
       if(todoState === "doing"){
         return(
         <>
-          <button onClick={handlePause}> Pause </button>
-          <button onClick={handleReset}> Reset </button>
+          <IconSmallButton 
+            onClick={handlePause}
+            buttonColor="primary"
+            imgURL={pauseImgURL}
+            imgDescribe="Pause timer"
+          />
+          <IconSmallButton 
+            onClick={handleReset}
+            buttonColor="primary"
+            imgURL={stopImgURL}
+            imgDescribe="Stop timer"
+          />
         </>)
       }
       if(todoState === "pending"){
         return(
         <>
-          <button onClick={handleResume}> Resume </button>
-          <button onClick={handleReset}> Reset </button>
+          <IconSmallButton 
+            onClick={handleResume}
+            buttonColor="primary"
+            imgURL={resumeImgURL}
+            imgDescribe="Resume timer"
+          />
+          <IconSmallButton 
+            onClick={handleReset}
+            buttonColor="primary"
+            imgURL={stopImgURL}
+            imgDescribe="Stop timer"
+          />
         </>)
       }
     }
@@ -95,7 +131,7 @@ export const TodoItem = ({ id, title, completed, timeSpend }: Todo) => {
     }
 
     //TODO: TimeSpend calculation
-
+  
     return(
       <div>
           {!completed &&
@@ -119,11 +155,27 @@ export const TodoItem = ({ id, title, completed, timeSpend }: Todo) => {
                     outline: editingTodo ? 'auto' : 'none',
                     }}
                 />
-                <button hidden={!editingTodo} type="submit">save</button>
+                
+                {editingTodo && <IconSmallButton 
+                  buttonType="submit"
+                  buttonColor="primary"
+                  imgURL={checkImgURL}
+                  imgDescribe="Save todo"
+                />}
               </form>
               <p>{Math.floor(timeSpend)} s</p>
-              <button hidden={editingTodo} onClick={handleTodoDelete}>delete</button>
-              <button hidden={editingTodo} onClick={handleTodoEdit}>edit</button>
+              {!editingTodo && <IconSmallButton 
+                onClick={handleTodoDelete}
+                buttonColor="secondary"
+                imgURL={trashImgURL}
+                imgDescribe="Delete todo"
+              />}
+              {!editingTodo && <IconSmallButton 
+                onClick={handleTodoEdit}
+                buttonColor="secondary"
+                imgURL={editImgURL}
+                imgDescribe="Edit todo"
+              />}
             </div>
           }
       </div> 

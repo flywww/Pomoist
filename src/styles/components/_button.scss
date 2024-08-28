@@ -1,0 +1,21 @@
+
+.iconSmallButton{
+    @include flex-center;
+    width: 24px;
+    height: 24px;
+    border-radius: $border-radius-lg;
+    border-color: transparent;
+
+    &--primary{
+        background-color: $color-primary;
+        &:hover{
+            background-color: lighten($color: $color-primary, $amount: 25%);
+        }
+    }
+    &--secondary{
+        background-color: $color-secondary;
+        &:hover{
+            background-color: lighten($color: $color-secondary, $amount: 25%);
+        }
+    }
+}

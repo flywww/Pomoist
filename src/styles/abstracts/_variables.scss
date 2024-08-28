@@ -1,45 +1,25 @@
-//color
-$primary-color: #111111;
-$secondary-color: #222222;
-
-//TODO:-----
-// Primary Colors
-$primary: #1d4ed8; // Blue
-$primary-light: #60a5fa;
-$primary-dark: #1e3a8a;
-
-// Secondary Colors
-$secondary: #f59e0b; // Amber
-$secondary-light: #fcd34d;
-$secondary-dark: #b45309;
+// Colors
+$color-primary: #e11d48;
+$color-secondary: #F4F4F5;
+$color-foreground: #18181B;
 
 // Neutral Colors
-$background: #ffffff; // White
-$background-light: #f3f4f6; // Light gray background
-$background-dark: #e5e7eb; // Darker gray background
-$text-primary: #111827; // Dark gray for primary text
-$text-secondary: #6b7280; // Medium gray for secondary text
-$text-muted: #9ca3af; // Lighter gray for muted text
+$color-background: #ffffffe6 90%; 
+$color-text-primary: #111827; 
+$color-text-secondary: #ffffff; 
+
+$color-text-muted: #9ca3af; 
 
 // State Colors
-$success: #10b981; // Green
-$warning: #f59e0b; // Yellow
-$error: #ef4444; // Red
-$info: #3b82f6; // Blue
-
-// Border Colors
-$border-color: #d1d5db; // Light gray for borders
-$border-color-dark: #4b5563; // Dark gray for dark mode borders
+$color-success: #10b981; 
+$color-warning: #f59e0b; 
+$color-error: #ef4444; 
+$color-info: #3b82f6; 
 
 // Additional Colors
-$overlay: rgba(0, 0, 0, 0.5); // Black overlay with 50% opacity
-
-
-
-//TODO:-----
-
-
-
+$color-border: #d1d5db; 
+//TODO:
+$color-overlay: rgba(0, 0, 0, 0.5); 
 
 
 //Font family
