@@ -35,6 +35,7 @@ export const TodoList = () => {
         <>
            <div>
               <input 
+                className="textInput"
                 type="text" 
                 value={newTodo.title}
                 onChange={e => setNewTodo({...newTodo, title: e.target.value})}

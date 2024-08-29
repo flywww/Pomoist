@@ -1,7 +1,7 @@
 import React from "react"
 
 type ClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => void;
-interface IconButtonProps {
+interface SmallIconButtonProps {
     onClick?: ClickHandler;
     buttonType?: "button" | "submit" | "reset";
     buttonColor: "primary" | "secondary";
@@ -9,11 +9,11 @@ interface IconButtonProps {
     imgDescribe: string;
 }
 
-export const IconSmallButton: React.FC<IconButtonProps> = ({onClick, buttonType, imgURL, imgDescribe, buttonColor}) => {
+export const SmallIconButton: React.FC<SmallIconButtonProps> = ({onClick, buttonType, imgURL, imgDescribe, buttonColor}) => {
     
     return(
         <button 
-            className = {`iconSmallButton iconSmallButton--${buttonColor}`}
+            className = {`smallIconButton smallIconButton--${buttonColor}`}
             onClick = {onClick}
             type = {buttonType}
         >

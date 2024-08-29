@@ -3,7 +3,7 @@ import { TodoContext } from "../context/todoContext"
 import { PomodoroContext } from "../context/pomodoroContext";
 import { Todo, TodoState } from "../utils/db";
 import { useSettings } from "../hooks/useSettings";
-import { IconSmallButton } from "./IconSmallButton";
+import { SmallIconButton } from "./SmallIconButton";
 import playImgURL from "../assets/component/button/play.png"
 import pauseImgURL from "../assets/component/button/pause.png"
 import stopImgURL from "../assets/component/button/stop.png"
@@ -63,54 +63,6 @@ export const TodoItem = ({ id, title, completed, timeSpend }: Todo) => {
       }
     },[isActive, todoState, time])
 
-    //Control buttons render functions
-    const renderControlButtons = () => {
-      if(todoState === "todo" && !isActive && onGoingTodoId === undefined && mode === "focus"){
-        return (
-          (!editingTodo && isHovered) && <IconSmallButton 
-            onClick={handleStart}
-            buttonColor="primary"
-            imgURL={playImgURL}
-            imgDescribe="Start timer"
-          />
-        )
-      }
-      if(todoState === "doing"){
-        return(
-        <>
-          <IconSmallButton 
-            onClick={handlePause}
-            buttonColor="primary"
-            imgURL={pauseImgURL}
-            imgDescribe="Pause timer"
-          />
-          <IconSmallButton 
-            onClick={handleReset}
-            buttonColor="primary"
-            imgURL={stopImgURL}
-            imgDescribe="Stop timer"
-          />
-        </>)
-      }
-      if(todoState === "pending"){
-        return(
-        <>
-          <IconSmallButton 
-            onClick={handleResume}
-            buttonColor="primary"
-            imgURL={resumeImgURL}
-            imgDescribe="Resume timer"
-          />
-          <IconSmallButton 
-            onClick={handleReset}
-            buttonColor="primary"
-            imgURL={stopImgURL}
-            imgDescribe="Stop timer"
-          />
-        </>)
-      }
-    }
-
     //Todo edit, delete, save handle functions
     const handleTodoEdit = () => {
       setEditingTodo(true)
@@ -130,6 +82,55 @@ export const TodoItem = ({ id, title, completed, timeSpend }: Todo) => {
       setEditingTodo(false);
     }
   
+
+    //Control buttons render functions
+    const renderControlButtons = () => {
+      if(todoState === "todo" && !isActive && onGoingTodoId === undefined && mode === "focus"){
+        return (
+          (!editingTodo && isHovered) && <SmallIconButton 
+            onClick={handleStart}
+            buttonColor="primary"
+            imgURL={playImgURL}
+            imgDescribe="Start timer"
+          />
+        )
+      }
+      if(todoState === "doing"){
+        return(
+        <>
+          <SmallIconButton 
+            onClick={handlePause}
+            buttonColor="primary"
+            imgURL={pauseImgURL}
+            imgDescribe="Pause timer"
+          />
+          <SmallIconButton 
+            onClick={handleReset}
+            buttonColor="primary"
+            imgURL={stopImgURL}
+            imgDescribe="Stop timer"
+          />
+        </>)
+      }
+      if(todoState === "pending"){
+        return(
+        <>
+          <SmallIconButton 
+            onClick={handleResume}
+            buttonColor="primary"
+            imgURL={resumeImgURL}
+            imgDescribe="Resume timer"
+          />
+          <SmallIconButton 
+            onClick={handleReset}
+            buttonColor="primary"
+            imgURL={stopImgURL}
+            imgDescribe="Stop timer"
+          />
+        </>)
+      }
+    }
+
     return(
       <div
         onMouseEnter={()=>{setIsHovered(true)}}
@@ -157,7 +158,7 @@ export const TodoItem = ({ id, title, completed, timeSpend }: Todo) => {
                     ref = {todoInputRef}
                   />
                   
-                  {editingTodo && <IconSmallButton 
+                  {editingTodo && <SmallIconButton 
                     buttonType="submit"
                     buttonColor="primary"
                     imgURL={checkImgURL}
@@ -169,13 +170,13 @@ export const TodoItem = ({ id, title, completed, timeSpend }: Todo) => {
                 <p className="todoItem__timeSpend">
                   {Math.floor(timeSpend/60)} mins
                 </p>
-                {(!editingTodo && isHovered && !isActive) && <IconSmallButton 
+                {(!editingTodo && isHovered && !isActive) && <SmallIconButton 
                   onClick={handleTodoDelete}
                   buttonColor="secondary"
                   imgURL={trashImgURL}
                   imgDescribe="Delete todo"
                 />}
-                {(!editingTodo && isHovered && !isActive) && <IconSmallButton 
+                {(!editingTodo && isHovered && !isActive) && <SmallIconButton 
                   onClick={handleTodoEdit}
                   buttonColor="secondary"
                   imgURL={editImgURL}
