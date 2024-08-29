@@ -9,13 +9,13 @@ import pauseImgURL from "../assets/component/button/pause.png"
 import stopImgURL from "../assets/component/button/stop.png"
 import resumeImgURL from "../assets/component/button/resume.png"
 import checkImgURL from "../assets/component/button/check.png"
-import clockImgURL from "../assets/component/button/clock.png"
 import trashImgURL from "../assets/component/button/trash.png"
 import editImgURL from "../assets/component/button/edit.png"
 
 export const TodoItem = ({ id, title, completed, timeSpend }: Todo) => {
 
     const [editingTodo, setEditingTodo] = useState<boolean>(false)
+    const [isHovered, setIsHovered] = useState<boolean>(false);
     const [todoState, setTodoState] = useState<TodoState>("todo");
     const todoContext = useContext(TodoContext);
     if (!todoContext) {
@@ -67,7 +67,7 @@ export const TodoItem = ({ id, title, completed, timeSpend }: Todo) => {
     const renderControlButtons = () => {
       if(todoState === "todo" && !isActive && onGoingTodoId === undefined && mode === "focus"){
         return (
-          <IconSmallButton 
+          (!editingTodo && isHovered) && <IconSmallButton 
             onClick={handleStart}
             buttonColor="primary"
             imgURL={playImgURL}
@@ -129,55 +129,60 @@ export const TodoItem = ({ id, title, completed, timeSpend }: Todo) => {
       updateTodo(id, {title: todoTitle});
       setEditingTodo(false);
     }
-
-    //TODO: TimeSpend calculation
   
     return(
-      <div>
-          {!completed &&
-            <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-start'}}>
-              <input 
-                type="checkbox" 
-                checked = {completed}
-                onChange={ () => completeTodo(id)}
-              />
-              {renderControlButtons()}
-              <form onSubmit={handleTodoSave} style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-start'}}>
-                <input 
-                  type="text"  
-                  name="todoTitle"
-                  defaultValue={title}
-                  readOnly = {!editingTodo}
-                  ref = {todoInputRef}
-                  style={{
-                    cursor: editingTodo ? 'text' : 'default',
-                    border: editingTodo ? '1px solid #ccc' : 'none',
-                    outline: editingTodo ? 'auto' : 'none',
-                    }}
+      <div
+        onMouseEnter={()=>{setIsHovered(true)}}
+        onMouseLeave={()=>{setIsHovered(false)}}
+        >
+          <div className="todoItem">
+              <div className="todoItem__leftSector">
+                <input
+                  className="checkbox"
+                  type="checkbox" 
+                  checked = {completed}
+                  onChange={ () => completeTodo(id)}
                 />
-                
-                {editingTodo && <IconSmallButton 
-                  buttonType="submit"
-                  buttonColor="primary"
-                  imgURL={checkImgURL}
-                  imgDescribe="Save todo"
+                {renderControlButtons()}
+                <form
+                  className="todoForm"
+                  onSubmit={handleTodoSave} 
+                >
+                  <input
+                    className={editingTodo ? "textInput--editing" : "textInput" }
+                    type="text"  
+                    name="todoTitle"
+                    defaultValue={title}
+                    readOnly = {!editingTodo}
+                    ref = {todoInputRef}
+                  />
+                  
+                  {editingTodo && <IconSmallButton 
+                    buttonType="submit"
+                    buttonColor="primary"
+                    imgURL={checkImgURL}
+                    imgDescribe="Save todo"
+                  />}
+                </form>
+              </div>
+              <div className="todoItem__rightSector">
+                <p className="todoItem__timeSpend">
+                  {Math.floor(timeSpend/60)} mins
+                </p>
+                {(!editingTodo && isHovered && !isActive) && <IconSmallButton 
+                  onClick={handleTodoDelete}
+                  buttonColor="secondary"
+                  imgURL={trashImgURL}
+                  imgDescribe="Delete todo"
                 />}
-              </form>
-              <p>{Math.floor(timeSpend)} s</p>
-              {!editingTodo && <IconSmallButton 
-                onClick={handleTodoDelete}
-                buttonColor="secondary"
-                imgURL={trashImgURL}
-                imgDescribe="Delete todo"
-              />}
-              {!editingTodo && <IconSmallButton 
-                onClick={handleTodoEdit}
-                buttonColor="secondary"
-                imgURL={editImgURL}
-                imgDescribe="Edit todo"
-              />}
+                {(!editingTodo && isHovered && !isActive) && <IconSmallButton 
+                  onClick={handleTodoEdit}
+                  buttonColor="secondary"
+                  imgURL={editImgURL}
+                  imgDescribe="Edit todo"
+                />}
+              </div>
             </div>
-          }
       </div> 
     )
 }

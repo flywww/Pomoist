@@ -43,7 +43,7 @@ export const TodoList = () => {
               <button onClick={addTodoButtonClicked}>add</button>
             </div>
             <ul>
-              { todos.map(todo => <TodoItem key={todo.id} {...todo}/> )}
+              { todos.map(todo => !todo.completed && <TodoItem key={todo.id} {...todo}/> )}
             </ul>
         </>
     )

@@ -1,0 +1,49 @@
+.textInput{
+    @include header4;
+    cursor: default;
+    border: none;
+    outline: none;
+    height: 36px;
+    width: 100%;
+    &--editing{
+        @include header4;
+        cursor: text;
+        border: 1px solid $color-border;
+        outline: auto;
+        height: 36px;
+        width: 100%;
+    }
+}
+
+.checkbox {
+    width: 24px;
+    height: 24px;
+    appearance: none;
+    background-color:$color-background;
+    border: 1px solid $color-border;
+    border-radius: 12px;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+
+    &:checked{
+        background-color: $color-primary;
+        border-color: transparent;
+        &::after{
+            content: '\2714'; /* Unicode check mark */
+            color: $color-background;
+            font-size: 10px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    &:hover{
+        background-color: $color-border;
+    }
+}
+
+
+

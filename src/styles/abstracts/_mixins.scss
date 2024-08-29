@@ -3,6 +3,38 @@
 }
 
 //Typography
+@mixin header1 {
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-extrabold;
+  line-height: $line-height-xs;
+  letter-spacing: -0.9px;
+}
+@mixin header2 {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-sm;
+  letter-spacing: -0.75px;
+}
+@mixin header3 {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-md;
+  letter-spacing: -0.6px;
+}
+@mixin header4 {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-lg;
+  letter-spacing: -0.5px;
+}
+
+@mixin small {
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  line-height: $line-height-base;
+  letter-spacing: normal;
+}
+
 @mixin lead {
   font-family: $font-stack;
   font-size: $font-size-md;

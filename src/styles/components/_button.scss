@@ -4,18 +4,22 @@
     width: 24px;
     height: 24px;
     border-radius: $border-radius-lg;
-    border-color: transparent;
+    border-style: none;
 
     &--primary{
         background-color: $color-primary;
+        border-color: $color-primary;
+        border-width: 1px;
         &:hover{
-            background-color: lighten($color: $color-primary, $amount: 25%);
+            background-color: lighten($color: $color-primary, $amount: 10%);
         }
     }
     &--secondary{
         background-color: $color-secondary;
+        border-color: $color-secondary;
+        border-width: 1px;
         &:hover{
-            background-color: lighten($color: $color-secondary, $amount: 25%);
+            background-color: darken($color: $color-secondary, $amount: 10%);
         }
     }
 }

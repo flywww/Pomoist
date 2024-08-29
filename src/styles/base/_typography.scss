@@ -10,52 +10,30 @@ h1, h2, h3, h4, h5, h6, small {
   font-family: $font-stack;
   font-stretch: normal;
   font-style: normal;
-  margin-bottom: 1.5rem;
   color: $color-secondary;
 }
 
 h1 {
-  font-size: $font-size-xxl;
-  font-weight: $font-weight-extrabold;
-  line-height: $line-height-xs;
-  letter-spacing: -0.9px;
+  @include header1;
 }
 h2 {
-  font-size: $font-size-xl;
-  font-weight: $font-weight-semibold;
-  line-height: $line-height-sm;
-  letter-spacing: -0.75px;
+  @include header2;
 }
 h3 {
-  font-size: $font-size-lg;
-  font-weight: $font-weight-semibold;
-  line-height: $line-height-md;
-  letter-spacing: -0.6px;
+  @include header3;
 }
 h4 {
-  font-size: $font-size-md;
-  font-weight: $font-weight-semibold;
-  line-height: $line-height-lg;
-  letter-spacing: -0.5px;
+  @include header4;
 }
-
 small {
-  font-size: $font-size-base;
-  font-weight: $font-weight-medium;
-  line-height: $line-height-base;
-  letter-spacing: normal;
+  @include small;
 }
-
 p{
   @include paragraph;
-  margin-bottom: $spacing-md;
 }
-
 .lead{
   @include lead;
-  margin-bottom: $spacing-md;
 }
-
 .muted{
   @include muted;
 }
