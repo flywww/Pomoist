@@ -1,8 +1,27 @@
-.todoForm{
+.editTodoForm{
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
     gap: $spacing-sm;
     width: 100%;
+    background-color: $color-background;
+}
+
+.addTodoForm{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: $spacing-sm;
+    
+
+    border: 1px solid $color-border;
+    border-radius: $border-radius-md;
+    height: 64px;
+
+    background-color: $color-background;
+
+    margin: $spacing-lg $spacing-md;
+    padding: 0 $spacing-md;
 }

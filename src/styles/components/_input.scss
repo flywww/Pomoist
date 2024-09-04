@@ -5,6 +5,7 @@
     outline: none;
     height: 36px;
     width: 100%;
+    padding-left: $spacing-md;
     &--editing{
         @include header4;
         cursor: text;
@@ -12,6 +13,7 @@
         outline: auto;
         height: 36px;
         width: 100%;
+        padding-left: $spacing-md;
     }
 }
 

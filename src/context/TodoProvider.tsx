@@ -1,9 +1,12 @@
-import React, { useEffect, useState, useCallback }  from "react"
+import React, { useEffect, useState, useCallback, useContext }  from "react"
 import { TodoContext } from "./todoContext"
-import {db, Todo} from "../utils/db"
+import {db, Todo, PomodoroSession} from "../utils/db"
+import { PomodoroSessionContext } from "./pomodoroSessionContext"
 
 export const TodoProvider: React.FC<{children: React.ReactNode}> = ({children}) => {
     const [todos, setTodos] = useState<Todo[]>([]);
+    const { lastSession, getSessions } = useContext(PomodoroSessionContext);
+
     const loadTodos = useCallback(async() => {
         try {
             const loadedTodos = await db.todos.toArray();
@@ -42,11 +45,10 @@ export const TodoProvider: React.FC<{children: React.ReactNode}> = ({children}) 
         try {
             setTodos(prevTodos => prevTodos.filter( todo => todo.id !==id));
             await db.todos.delete(id);
-            await loadTodos();
         } catch (error) {
             console.error("fail to delete todos", error);
         }
-    },[loadTodos])
+    },[])
 
     const updateTodo = useCallback(async (id:number | undefined, newTodo: Omit<Partial<Todo>, "id">) => {
         const existingTodo = todos.find( todo => todo.id === id)
@@ -62,27 +64,10 @@ export const TodoProvider: React.FC<{children: React.ReactNode}> = ({children}) 
             const updatedTodo = {...existingTodo , ...newTodo};
             setTodos(prevTodos => prevTodos.map (todo => todo.id ===id ? updatedTodo : todo));    
             await db.todos.update(id, updatedTodo);
-            await loadTodos();
         } catch (error) {
             console.error("fail to update todos", error);
         }
-    },[loadTodos, todos])
-
-    const updateTodoTimeSpend = useCallback(async (id:number | undefined, timeSpend: number) => {
-        if(id === undefined) {
-            console.error(`Todo with id ${id} can not be undefined!`)
-            return;
-        }
-        try {
-            const prevTodo = await getTodo(id);
-            if(prevTodo){
-                const prevTodoTimeSpend: number = prevTodo.timeSpend;
-                await updateTodo(id, {timeSpend: (prevTodoTimeSpend + timeSpend)});
-            }
-        } catch (error) {
-            console.error(`Error update todo timeSpend with id: ${id}`, error)
-        }
-    }, [updateTodo, getTodo])
+    },[todos])
 
     const completeTodo = useCallback(async (id:number | undefined) => {
         try {
@@ -93,12 +78,28 @@ export const TodoProvider: React.FC<{children: React.ReactNode}> = ({children}) 
         
     },[updateTodo])
 
+    const updateTodoTimeSpend = useCallback(async () => {
+        if (!lastSession?.todoId || !getSessions) return;
+        try {
+            const totalTimeReducer = (totalTime: number, session: PomodoroSession) => totalTime + session.duration;
+            const loadedSessions = await getSessions({todoId: lastSession.todoId});
+            const newTodoTimeSpend = loadedSessions?.reduce(totalTimeReducer, 0);
+            updateTodo(lastSession.todoId, {timeSpend: newTodoTimeSpend});
+        } catch (error) {
+            console.error(`Could not to update todo time spend.`, error);
+        }
+      },[getSessions, updateTodo, lastSession])
+
+    useEffect(() => {
+        updateTodoTimeSpend(); 
+    }, [lastSession])
+
     useEffect(() => {
         loadTodos();
     }, [loadTodos]);
 
     return(
-        <TodoContext.Provider value={{todos, getTodo, addTodo, deleteTodo, updateTodo, updateTodoTimeSpend, completeTodo}}>
+        <TodoContext.Provider value={{todos, getTodo, addTodo, deleteTodo, updateTodo, completeTodo}}>
             {children}
         </TodoContext.Provider>
     )

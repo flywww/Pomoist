@@ -6,7 +6,6 @@ export interface TodoContextType {
     addTodo: (todo: Todo) => void;
     deleteTodo: (id:number | undefined) => void;
     updateTodo: (id:number | undefined, todo: Omit<Partial<Todo>, "id">) => void;
-    updateTodoTimeSpend: (id:number | undefined, timeSpend: number) => void;
     completeTodo: (id:number | undefined) => void;
     getTodo: (id: number) => Promise<Todo | undefined>;
 }

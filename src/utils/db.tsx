@@ -14,7 +14,7 @@ export interface Todo {
 // PomodoroSession interface
 export interface PomodoroSession{
     id?: number;
-    startTime: Date;
+    startTime: Date | undefined;
     duration: number;
     todoId?: number;
 }

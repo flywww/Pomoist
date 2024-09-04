@@ -1,10 +1,9 @@
 
-.smallIconButton{
+.iconButton{
     @include flex-center;
-    width: 24px;
-    height: 24px;
     border-radius: $border-radius-lg;
     border-style: none;
+    flex-shrink: 0;
 
     &--primary{
         background-color: $color-primary;
@@ -21,5 +20,15 @@
         &:hover{
             background-color: darken($color: $color-secondary, $amount: 10%);
         }
+    }
+
+    &--small{
+        width: 24px;
+        height: 24px;
+    }
+
+    &--medium{
+        width: 40px;
+        height: 40px;
     }
 }

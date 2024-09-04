@@ -2,8 +2,7 @@ import { useContext, useState, useEffect, useRef } from "react"
 import { TodoContext } from "../context/todoContext"
 import { PomodoroContext } from "../context/pomodoroContext";
 import { Todo, TodoState } from "../utils/db";
-import { useSettings } from "../hooks/useSettings";
-import { SmallIconButton } from "./SmallIconButton";
+import { IconButton } from "./IconButton"
 import playImgURL from "../assets/component/button/play.png"
 import pauseImgURL from "../assets/component/button/pause.png"
 import stopImgURL from "../assets/component/button/stop.png"
@@ -25,11 +24,10 @@ export const TodoItem = ({ id, title, completed, timeSpend }: Todo) => {
     if (!pomodoroContext) {
         throw new Error("Timer must be used within a PomodoroProvider");
     }
-    const {time, isActive, mode, onGoingTodoId, startTimer, pauseTimer, resetTimer} = pomodoroContext;
-    const {completeTodo, deleteTodo, updateTodoTimeSpend ,updateTodo} = todoContext;
-    const {settings} = useSettings()
+    const {time, isActive, mode, onGoingSession, startTimer, pauseTimer, resetTimer} = pomodoroContext;
+    const {completeTodo, deleteTodo ,updateTodo} = todoContext;
     const todoInputRef = useRef<HTMLInputElement>(null)
-  
+
     // Control button handle functions
     const handleStart = () => {
         resetTimer();
@@ -43,7 +41,6 @@ export const TodoItem = ({ id, title, completed, timeSpend }: Todo) => {
     }
 
     const handleReset = () => {
-      mode === "focus" && updateTodoTimeSpend(id, settings.focusTime*60 - time);
       resetTimer();
       setTodoState("todo");
     }
@@ -57,13 +54,8 @@ export const TodoItem = ({ id, title, completed, timeSpend }: Todo) => {
       if(!isActive && todoState === "doing"){
         setTodoState("todo");
       }
-      // If time's up than update timeSpend
-      if(todoState === "doing" && time === 0 && mode === "focus"){
-        updateTodoTimeSpend(id, settings.focusTime*60);
-      }
     },[isActive, todoState, time])
 
-    //Todo edit, delete, save handle functions
     const handleTodoEdit = () => {
       setEditingTodo(true)
       setTimeout(() => {
@@ -81,15 +73,21 @@ export const TodoItem = ({ id, title, completed, timeSpend }: Todo) => {
       updateTodo(id, {title: todoTitle});
       setEditingTodo(false);
     }
+
+    const handleCompleteTodo = () => {
+      id === onGoingSession?.todoId && handleReset();
+      completeTodo(id);
+    }
   
 
     //Control buttons render functions
     const renderControlButtons = () => {
-      if(todoState === "todo" && !isActive && onGoingTodoId === undefined && mode === "focus"){
+      if(todoState === "todo" && !isActive && onGoingSession?.todoId === undefined && mode === "focus"){
         return (
-          (!editingTodo && isHovered) && <SmallIconButton 
+          (!editingTodo && isHovered) && <IconButton 
             onClick={handleStart}
             buttonColor="primary"
+            buttonSize="small"
             imgURL={playImgURL}
             imgDescribe="Start timer"
           />
@@ -98,15 +96,17 @@ export const TodoItem = ({ id, title, completed, timeSpend }: Todo) => {
       if(todoState === "doing"){
         return(
         <>
-          <SmallIconButton 
+          <IconButton 
             onClick={handlePause}
             buttonColor="primary"
+            buttonSize="small"
             imgURL={pauseImgURL}
             imgDescribe="Pause timer"
           />
-          <SmallIconButton 
+          <IconButton 
             onClick={handleReset}
             buttonColor="primary"
+            buttonSize="small"
             imgURL={stopImgURL}
             imgDescribe="Stop timer"
           />
@@ -115,15 +115,17 @@ export const TodoItem = ({ id, title, completed, timeSpend }: Todo) => {
       if(todoState === "pending"){
         return(
         <>
-          <SmallIconButton 
+          <IconButton 
             onClick={handleResume}
             buttonColor="primary"
+            buttonSize="small"
             imgURL={resumeImgURL}
             imgDescribe="Resume timer"
           />
-          <SmallIconButton 
+          <IconButton 
             onClick={handleReset}
             buttonColor="primary"
+            buttonSize="small"
             imgURL={stopImgURL}
             imgDescribe="Stop timer"
           />
@@ -142,11 +144,11 @@ export const TodoItem = ({ id, title, completed, timeSpend }: Todo) => {
                   className="checkbox"
                   type="checkbox" 
                   checked = {completed}
-                  onChange={ () => completeTodo(id)}
+                  onChange={handleCompleteTodo}
                 />
                 {renderControlButtons()}
                 <form
-                  className="todoForm"
+                  className="editTodoForm"
                   onSubmit={handleTodoSave} 
                 >
                   <input
@@ -158,9 +160,10 @@ export const TodoItem = ({ id, title, completed, timeSpend }: Todo) => {
                     ref = {todoInputRef}
                   />
                   
-                  {editingTodo && <SmallIconButton 
+                  {editingTodo && <IconButton 
                     buttonType="submit"
                     buttonColor="primary"
+                    buttonSize="small"
                     imgURL={checkImgURL}
                     imgDescribe="Save todo"
                   />}
@@ -168,17 +171,19 @@ export const TodoItem = ({ id, title, completed, timeSpend }: Todo) => {
               </div>
               <div className="todoItem__rightSector">
                 <p className="todoItem__timeSpend">
-                  {Math.floor(timeSpend/60)} mins
+                  {Math.floor(timeSpend)} secs
                 </p>
-                {(!editingTodo && isHovered && !isActive) && <SmallIconButton 
+                {(!editingTodo && isHovered && !isActive) && <IconButton 
                   onClick={handleTodoDelete}
                   buttonColor="secondary"
+                  buttonSize="small"
                   imgURL={trashImgURL}
                   imgDescribe="Delete todo"
                 />}
-                {(!editingTodo && isHovered && !isActive) && <SmallIconButton 
+                {(!editingTodo && isHovered && !isActive) && <IconButton 
                   onClick={handleTodoEdit}
                   buttonColor="secondary"
+                  buttonSize="small"
                   imgURL={editImgURL}
                   imgDescribe="Edit todo"
                 />}

@@ -1,0 +1,13 @@
+.timerSector{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    column-gap: $spacing-md;
+    margin: $spacing-xl;
+
+    &__timer{
+        @include header1;
+        font-size: 64px;
+    }
+}

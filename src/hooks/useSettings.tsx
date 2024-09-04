@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { db, Settings } from '../utils/db';
 
 const defaultSettings: Settings = {
-    focusTime: 25,
-    shortBreakTime: 5,
-    longBreakTime: 15,
-    breakInterval: 4,
+    focusTime: 1,
+    shortBreakTime: 2,
+    longBreakTime: 3,
+    breakInterval: 2,
     alarmSoundEnabled: false,
     notificationEnabled: false
 }

@@ -6,27 +6,25 @@ body {
   //color: $primary-color;
 }
 
-h1, h2, h3, h4, h5, h6, small {
-  font-family: $font-stack;
-  font-stretch: normal;
-  font-style: normal;
-  color: $color-secondary;
-}
-
 h1 {
   @include header1;
+  @include font-basic;
 }
 h2 {
   @include header2;
+  @include font-basic;
 }
 h3 {
   @include header3;
+  @include font-basic;
 }
 h4 {
   @include header4;
+  @include font-basic;
 }
 small {
   @include small;
+  @include font-basic;
 }
 p{
   @include paragraph;

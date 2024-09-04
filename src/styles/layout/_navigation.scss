@@ -1,0 +1,45 @@
+.nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 64px;
+    background-color: $color-primary;
+    padding-bottom: 0px;
+    width: 100%;
+
+    &__title{
+        margin: 0px $spacing-lg;
+    }
+
+    &__list{
+        display: flex;
+        flex-direction: row;
+        justify-content: end;
+        align-items: center;
+        column-gap: $spacing-sm;
+        margin: 0px $spacing-lg;
+        list-style: none;
+    }
+    &__item{
+        text-align: center;
+        align-content: center;
+        width: 96px;
+        height: 24px;
+        border-radius: $border-radius-md;
+        &:hover{
+            background-color: rgba($color: $color-background, $alpha: 0.5);
+        }
+    }
+
+    &__link{
+        display: block;
+        align-items: center;
+        align-content: center;
+        width: 96px;
+        height: 24px;
+        color: $color-background;
+        text-decoration: none;
+    }
+}
+

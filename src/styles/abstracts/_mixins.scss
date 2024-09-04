@@ -3,6 +3,13 @@
 }
 
 //Typography
+@mixin font-basic {
+  font-family: $font-stack;
+  font-stretch: normal;
+  font-style: normal;
+  color: $color-secondary;
+}
+
 @mixin header1 {
   font-size: $font-size-xxl;
   font-weight: $font-weight-extrabold;

@@ -3,6 +3,8 @@ import { TodoContext } from "../context/todoContext"
 import { PomodoroContext } from "../context/pomodoroContext";
 import { Todo } from "../utils/db";
 import { TodoItem } from "./TodoItem";
+import {IconButton} from "./IconButton"
+import plusImagURL from "../assets/component/button/plus.png"
 
 export const TodoList = () => { 
   const initialNewTodo: Todo = {
@@ -24,16 +26,18 @@ export const TodoList = () => {
     }
     
     const {todos, addTodo} = todoContext;
-
-
-    const addTodoButtonClicked = async () => {
-        await addTodo(newTodo);
+    const addTodoButtonClicked = (e: React.FormEvent<HTMLFormElement>)  => {
+        e.preventDefault();  
+        addTodo(newTodo);
         setNewTodo(initialNewTodo);
       }
 
     return(
         <>
            <div>
+            <form
+              className="addTodoForm" 
+              onSubmit={addTodoButtonClicked}>
               <input 
                 className="textInput"
                 type="text" 
@@ -41,11 +45,18 @@ export const TodoList = () => {
                 onChange={e => setNewTodo({...newTodo, title: e.target.value})}
                 placeholder="Add a new task"
               />
-              <button onClick={addTodoButtonClicked}>add</button>
-            </div>
-            <ul>
-              { todos.map(todo => !todo.completed && <TodoItem key={todo.id} {...todo}/> )}
-            </ul>
+              <IconButton 
+                buttonType="submit"
+                buttonColor="primary"
+                buttonSize="medium"
+                imgURL={plusImagURL}
+                imgDescribe="Add todo"
+              />
+            </form>
+          </div>
+          <ul>
+            { todos.map(todo => !todo.completed && <TodoItem key={todo.id} {...todo}/> )}
+          </ul>
         </>
     )
 }
