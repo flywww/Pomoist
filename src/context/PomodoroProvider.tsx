@@ -9,16 +9,12 @@ const calculateNewTime = (mode: PomodoroMode, settings:Settings) => {
   switch (mode) {
     case "focus": 
       return settings.focusTime*60;
-      break;
     case "shortBreak": 
       return settings.shortBreakTime*60;
-      break;
     case "longBreak": 
       return settings.longBreakTime*60;
-      break;
     default:
       return settings.focusTime*60;
-      break;
   }
 }
 
@@ -39,15 +35,11 @@ const pomodoroReducer = (state: PomodoroState, action: PomodoroAction) :Pomodoro
   
     switch (action.type) {
       case "START_TIMER":
-        console.log("in pomo reducer, todoID: ", action.onGoingTodoId);
-        console.log("in pomo reducer, new date: ", newStartTime);
-        console.log("in pomo reducer, new date with startTime: ", !state.onGoingSession.startTime || newStartTime,);
         newSession = {
           ...state.onGoingSession,
           startTime: state.onGoingSession.startTime || newStartTime,
           todoId: action.onGoingTodoId,
         }
-        console.log("in pomo reducer, newSession: ", newSession);
         return {
                 ...state, 
                 isActive: true, 

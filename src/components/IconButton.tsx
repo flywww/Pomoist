@@ -1,4 +1,4 @@
-import React from "react"
+import React, {memo} from "react"
 
 type ClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => void;
 interface iconButtonProps {
@@ -10,7 +10,7 @@ interface iconButtonProps {
     imgDescribe: string;
 }
 
-export const IconButton: React.FC<iconButtonProps> = ({onClick, buttonType, buttonSize, imgURL, imgDescribe, buttonColor}) => {
+const NonMemorizedIconButton: React.FC<iconButtonProps> = ({onClick, buttonType, buttonSize, imgURL, imgDescribe, buttonColor}) => {
     
     return(
         <button 
@@ -26,3 +26,5 @@ export const IconButton: React.FC<iconButtonProps> = ({onClick, buttonType, butt
         </button>
     )
 }
+
+export const IconButton = memo(NonMemorizedIconButton);

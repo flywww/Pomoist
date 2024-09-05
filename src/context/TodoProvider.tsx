@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useContext }  from "react"
 import { TodoContext } from "./todoContext"
-import {db, Todo, PomodoroSession} from "../utils/db"
+import { db, Todo, PomodoroSession } from "../utils/db"
 import { PomodoroSessionContext } from "./pomodoroSessionContext"
 
 export const TodoProvider: React.FC<{children: React.ReactNode}> = ({children}) => {
@@ -51,23 +51,24 @@ export const TodoProvider: React.FC<{children: React.ReactNode}> = ({children}) 
     },[])
 
     const updateTodo = useCallback(async (id:number | undefined, newTodo: Omit<Partial<Todo>, "id">) => {
-        const existingTodo = todos.find( todo => todo.id === id)
-        if(!existingTodo){
-            console.error(`Todo with id ${id} not found!`)
-            return
-        }
+        //const existingTodo = todos.find( todo => todo.id === id);
         if(id === undefined) {
             console.error(`Todo with id ${id} can not be undefined!`)
             return;
         }
         try {
+            const existingTodo = await getTodo(id);
+            if(!existingTodo){
+                console.error(`Todo with id ${id} not found!`)
+                return
+            }
             const updatedTodo = {...existingTodo , ...newTodo};
             setTodos(prevTodos => prevTodos.map (todo => todo.id ===id ? updatedTodo : todo));    
             await db.todos.update(id, updatedTodo);
         } catch (error) {
             console.error("fail to update todos", error);
         }
-    },[todos])
+    },[getTodo])
 
     const completeTodo = useCallback(async (id:number | undefined) => {
         try {
@@ -75,7 +76,6 @@ export const TodoProvider: React.FC<{children: React.ReactNode}> = ({children}) 
         } catch (error) {
             console.error(`Error complete todo with id: ${id}`, error);
         }
-        
     },[updateTodo])
 
     const updateTodoTimeSpend = useCallback(async () => {
@@ -88,11 +88,11 @@ export const TodoProvider: React.FC<{children: React.ReactNode}> = ({children}) 
         } catch (error) {
             console.error(`Could not to update todo time spend.`, error);
         }
-      },[getSessions, updateTodo, lastSession])
+      },[updateTodo, getSessions, lastSession])
 
     useEffect(() => {
         updateTodoTimeSpend(); 
-    }, [lastSession])
+    }, [lastSession, updateTodoTimeSpend])
 
     useEffect(() => {
         loadTodos();

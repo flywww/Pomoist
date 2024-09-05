@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {db, PomodoroSession} from "../utils/db"
 import { PomodoroSessionContext } from "./pomodoroSessionContext"
 
@@ -6,7 +6,7 @@ export const PomodoroSessionProvider: React.FC<{children: React.ReactNode}> = ({
     
     const [lastSession, setLastSession] = useState<PomodoroSession | undefined>(undefined);
 
-    const loadLastSession = async () => {
+    const loadLastSession = useCallback(async () => {
         try {
             const loadedLastSession = await getLastSession();
             setLastSession(loadedLastSession);
@@ -14,9 +14,9 @@ export const PomodoroSessionProvider: React.FC<{children: React.ReactNode}> = ({
             console.error(`load last session error`, error);
             setLastSession(undefined);
         }
-    };
+    },[]);
 
-    const getLastSession = async (): Promise<PomodoroSession | undefined> => {
+    const getLastSession = useCallback(async (): Promise<PomodoroSession | undefined> => {
         try {
             const lastSession = await db.pomodoroSessions.orderBy('id').last();
             return lastSession;
@@ -24,18 +24,18 @@ export const PomodoroSessionProvider: React.FC<{children: React.ReactNode}> = ({
             console.error(`Can not load last session:`, error);
             return undefined;
         }
-    }
+    },[])
 
-    const addSession = async (session: PomodoroSession) => {
+    const addSession = useCallback(async (session: PomodoroSession) => {
         try {
             await db.pomodoroSessions.add(session);
             loadLastSession();
         } catch (error) {
             console.error(`Can't add session to db`, error);
         }
-    }
+    },[loadLastSession])
 
-    const getSessions = async (filter: {id?:number, todoId?:number}): Promise<PomodoroSession[] | undefined> => {
+    const getSessions = useCallback(async (filter: {id?:number, todoId?:number}): Promise<PomodoroSession[] | undefined> => {
         try {
             let query = db.pomodoroSessions.toCollection();
             if(filter.id !== undefined){
@@ -49,7 +49,7 @@ export const PomodoroSessionProvider: React.FC<{children: React.ReactNode}> = ({
             console.error("could not get sessions", error);
             return undefined;
         }
-    }
+    },[])
 
     useEffect(() => {
         loadLastSession();

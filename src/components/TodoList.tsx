@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useCallback, useContext, useMemo, useState } from "react"
 import { TodoContext } from "../context/todoContext"
 import { PomodoroContext } from "../context/pomodoroContext";
 import { Todo } from "../utils/db";
@@ -32,6 +32,26 @@ export const TodoList = () => {
         setNewTodo(initialNewTodo);
       }
 
+    type TodoCondition = 'All' | "Active" | "Archived" | "Completed";
+    const filterTodos = useCallback((todos: Todo[], condition: TodoCondition) => {
+      switch (condition) {
+        case 'All':
+          return todos;
+        case 'Active':
+          return todos.filter( todo => todo.completed === false);
+        case 'Completed':
+          return todos.filter( todo => todo.completed === true);
+        default:
+          return todos;
+      }
+    },[])
+
+    const visibleTodos = useMemo(() => filterTodos(todos, 'Active'), [todos, filterTodos]);
+
+    const renderTodoItems = () => {
+      return visibleTodos.map( todo => <TodoItem key={todo.id} {...todo}/> )
+    }
+
     return(
         <>
            <div>
@@ -55,7 +75,7 @@ export const TodoList = () => {
             </form>
           </div>
           <ul>
-            { todos.map(todo => !todo.completed && <TodoItem key={todo.id} {...todo}/> )}
+            {renderTodoItems()}
           </ul>
         </>
     )
