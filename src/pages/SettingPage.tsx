@@ -1,8 +1,13 @@
-import { useSettings } from "../hooks/useSettings"
+import { useContext } from "react";
+import { SettingsContext } from "../context/settingsContext";
 
 export const SettingPage = () => {
 
-    const {settings, updateSettings} = useSettings();
+    const settingsContext = useContext(SettingsContext);
+    if (!settingsContext){
+        throw Error ("Settings must be used within a PomodoroProvider");
+    }
+    const {settings, updateSettings} = settingsContext;
     const handleSelectorOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const { name, value } = e.currentTarget;
         console.log (`name: ${name} , value ${value}`)
@@ -19,7 +24,8 @@ export const SettingPage = () => {
                     <input type="number" 
                             name="focusTime" 
                             value={settings.focusTime}
-                            onChange={(e) => updateSettings({focusTime: Number(e.target.value)})}
+                            min={1}
+                            onChange={(e) =>updateSettings({focusTime: Number(e.target.value)})}
                             />
                 </label>
                 <label>
@@ -27,6 +33,7 @@ export const SettingPage = () => {
                     <input type="number" 
                             name="shortBreakTime" 
                             value={settings.shortBreakTime}
+                            min={1}
                             onChange={(e) => updateSettings({shortBreakTime: Number(e.target.value)})}
                             />
                 </label>
@@ -34,6 +41,7 @@ export const SettingPage = () => {
                     Long break time: <input type="number" 
                                             name="longBreakTime" 
                                             value={settings.longBreakTime}
+                                            min={1}
                                             onChange={(e) => updateSettings({longBreakTime: Number(e.target.value)})}
                                             />
                 </label>
@@ -41,6 +49,7 @@ export const SettingPage = () => {
                     Break interval: <input type="number" 
                                             name="breakInterval" 
                                             value={settings.breakInterval}
+                                            min={1}
                                             onChange={(e) => updateSettings({breakInterval: Number(e.target.value)})}
                                             />
                 </label>  

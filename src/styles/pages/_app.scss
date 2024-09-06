@@ -1,8 +1,19 @@
 .app{
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
-    
     column-gap: 0px;
+
+    max-width: 600px;
+    min-width: 400px;
+    width: 100%;
 }
+.appContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;   /* Full width of the viewport */
+}
+

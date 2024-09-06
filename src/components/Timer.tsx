@@ -13,9 +13,10 @@ export const Timer = () => {
     if (!todoContext){
         throw new Error("Todo must be used within a TodoProvider");
     }
-    const {time, onGoingSession} = pomodoroContext;
+    const { mode, time, onGoingSession } = pomodoroContext;
     const { getTodo } = todoContext;
     const [onGoingTodo, setOnGoingTodo] = useState<Todo>()
+    const [pomodoroTitle, setPomodoroTitle] = useState<string>("");
     const minutes:string = (Math.floor(time/60)).toString().padStart(2,'0');
     const seconds:string = (time%60).toString().padStart(2, '0');
     
@@ -31,9 +32,26 @@ export const Timer = () => {
         loadOnGoingTodo();
     }, [onGoingSession, getTodo]);
 
+    useEffect(() => {
+        switch (mode) {
+            case 'focus':
+                onGoingTodo && setPomodoroTitle(onGoingTodo.title);
+                break;
+            case "shortBreak":
+                setPomodoroTitle("Short Break Time!");
+                break;
+            case "longBreak":
+                setPomodoroTitle("Long Break Time!");
+                break;
+            default:
+                setPomodoroTitle("")
+                break;
+        }
+    },[mode, onGoingTodo])
+
     return(
         <div className="timerSector">
-            <h3 className="timerSector__onGoingTask">{onGoingTodo?.title}</h3>
+            <h3 className="timerSector__onGoingTask">{pomodoroTitle}</h3>
             <h2 className="timerSector__timer"> {minutes} : {seconds} </h2>
         </div>
     )

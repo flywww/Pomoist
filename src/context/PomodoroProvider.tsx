@@ -1,8 +1,8 @@
 import React, {useCallback, useContext, useEffect, useReducer} from "react";
-import { useSettings } from "../hooks/useSettings";
 import { PomodoroSession, Settings } from "../utils/db";
 import { PomodoroSessionContext } from "./pomodoroSessionContext";
 import { PomodoroContext, PomodoroState, PomodoroAction, PomodoroMode } from "./pomodoroContext";
+import { SettingsContext } from "./settingsContext";
 
 
 const calculateNewTime = (mode: PomodoroMode, settings:Settings) => {
@@ -59,6 +59,7 @@ const pomodoroReducer = (state: PomodoroState, action: PomodoroAction) :Pomodoro
                   mode: "focus",
                   onGoingSession: initialSession
                 }
+                
       case "TICK":
         return {
             ...state, 
@@ -76,6 +77,7 @@ const pomodoroReducer = (state: PomodoroState, action: PomodoroAction) :Pomodoro
         }
         newTime = calculateNewTime(newMode, action.defaultSettings);
         isActiveForBreak = newMode !== "focus";
+
         return{
           ...state,
           mode: newMode,
@@ -90,12 +92,19 @@ const pomodoroReducer = (state: PomodoroState, action: PomodoroAction) :Pomodoro
 } 
 
 export const PomodoroProvider: React.FC< {children: React.ReactNode} > = ({children}) => {
-  const {settings} = useSettings();
+  
+  const settingsContext = useContext(SettingsContext);
+  if (!settingsContext){
+    throw Error ("Settings must be used within a PomodoroProvider");
+  }
+  const { settings } = settingsContext;
+
   const initialSession: PomodoroSession = {
     startTime: new Date(),
     duration: 0,
     todoId: undefined
   }
+
   const initialState: PomodoroState = {
     mode: "focus",
     time: settings.focusTime * 60,
@@ -103,15 +112,9 @@ export const PomodoroProvider: React.FC< {children: React.ReactNode} > = ({child
     sessionCompleted: 0,
     onGoingSession: initialSession,
   };
-  
 
   const [state, dispatch] = useReducer(pomodoroReducer, initialState);
   const { addSession } = useContext(PomodoroSessionContext);
-  
-
-  useEffect(() => {
-    dispatch({type: "RESET_TIMER", defaultSettings: settings});
-  }, [settings])
 
   useEffect(() => {
     let interval: number | undefined;
@@ -126,13 +129,21 @@ export const PomodoroProvider: React.FC< {children: React.ReactNode} > = ({child
     return () => {clearInterval(interval)};
   }, [state.isActive, state.time, settings])
 
+  useEffect(()=>{
+    if(state.isActive === false){
+      dispatch({type: "RESET_TIMER", defaultSettings: settings})
+    }
+  },[settings])
+
   const startTimer = useCallback((onGoingTodoId:number | undefined) => {
     dispatch({type: "START_TIMER", onGoingTodoId: onGoingTodoId})
 }, []);
+
   const pauseTimer = useCallback(() => {
     state.onGoingSession.todoId && addSession(state.onGoingSession);
     dispatch({type: "PAUSE_TIMER"});
 }, [state, addSession]);
+
   const resetTimer = useCallback(() => {
     state.onGoingSession.todoId && addSession(state.onGoingSession);
     dispatch({type: "RESET_TIMER", defaultSettings: settings})
