@@ -1,0 +1,35 @@
+.settingsPage{
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, $color-third, $color-primary);
+}
+
+.timeSetting{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: $spacing-md;
+    margin-top: $spacing-xxl;
+
+    &__sector{
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+        row-gap: $spacing-sm;
+    }
+
+    &__label{
+        color: $color-background;
+    }
+
+    &__input{
+        width: 120px;
+        height: 28px;
+        border-radius: 4px;
+        border: 1px solid $color-border;
+        margin-left: $spacing-md;
+        
+    }
+    
+}

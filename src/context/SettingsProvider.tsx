@@ -4,10 +4,10 @@ import { SettingsContext } from './settingsContext';
 
 export const SettingsProvider: React.FC<{children: React.ReactNode}> = ({children}) => {
     const defaultSettings: Settings = {
-        focusTime: 1,
-        shortBreakTime: 2,
-        longBreakTime: 3,
-        breakInterval: 2,
+        focusTime: 25,
+        shortBreakTime: 5,
+        longBreakTime: 15,
+        breakInterval: 4,
         alarmSoundEnabled: false,
         notificationEnabled: false
     }

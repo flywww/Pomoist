@@ -33,6 +33,7 @@ export const Timer = () => {
     }, [onGoingSession, getTodo]);
 
     useEffect(() => {
+        setPomodoroTitle("");
         switch (mode) {
             case 'focus':
                 onGoingTodo && setPomodoroTitle(onGoingTodo.title);
