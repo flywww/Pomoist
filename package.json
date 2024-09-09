@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage":"https://stanley004/Pomoist.com",
+  "homepage":"https://Pomoist.stanley004.com",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
