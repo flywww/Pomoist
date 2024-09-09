@@ -13,7 +13,7 @@ export const Timer = () => {
     if (!todoContext){
         throw new Error("Todo must be used within a TodoProvider");
     }
-    const { mode, time, onGoingSession } = pomodoroContext;
+    const { mode, time, onGoingSession, resetTimer } = pomodoroContext;
     const { getTodo } = todoContext;
     const [onGoingTodo, setOnGoingTodo] = useState<Todo>()
     const [pomodoroTitle, setPomodoroTitle] = useState<string>("");
@@ -54,6 +54,7 @@ export const Timer = () => {
         <div className="timerSector">
             <h3 className="timerSector__onGoingTask">{pomodoroTitle}</h3>
             <h2 className="timerSector__timer"> {minutes} : {seconds} </h2>
+            {(mode === "shortBreak" || mode === "longBreak") &&<button className="smallButton" onClick={() => {resetTimer()}}>Skip break</button>}
         </div>
     )
 }

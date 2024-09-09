@@ -8,11 +8,6 @@ export const SettingPage = () => {
         throw Error ("Settings must be used within a PomodoroProvider");
     }
     const {settings, updateSettings} = settingsContext;
-    const handleSelectorOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const { name, value } = e.currentTarget;
-        console.log (`name: ${name} , value ${value}`)
-        updateSettings({ [name]: value === 'true'})
-    }
 
     //TODO: build react compoment for input for input validation (number and on/off)
     return (
@@ -28,7 +23,7 @@ export const SettingPage = () => {
                                 name="focusTime" 
                                 value={settings.focusTime}
                                 min={1}
-                                onChange={(e) =>updateSettings({focusTime: Number(e.target.value)})}
+                                onChange={(e) =>updateSettings({focusTime: Math.max(Number(e.target.value), 1)})}
                                 />
                     </label>
                     <label className="timeSetting__label">
@@ -39,7 +34,7 @@ export const SettingPage = () => {
                             name="shortBreakTime" 
                             value={settings.shortBreakTime}
                             min={1}
-                            onChange={(e) => updateSettings({shortBreakTime: Number(e.target.value)})}
+                            onChange={(e) => updateSettings({shortBreakTime: Math.max(Number(e.target.value), 1)})}
                             />
                     </label>
                     <label className="timeSetting__label">
@@ -50,7 +45,7 @@ export const SettingPage = () => {
                             name="longBreakTime" 
                             value={settings.longBreakTime}
                             min={1}
-                            onChange={(e) => updateSettings({longBreakTime: Number(e.target.value)})}
+                            onChange={(e) => updateSettings({longBreakTime: Math.max(Number(e.target.value), 1)})}
                             />
                     </label>
                     <label className="timeSetting__label">
@@ -61,7 +56,7 @@ export const SettingPage = () => {
                             name="breakInterval" 
                             value={settings.breakInterval}
                             min={1}
-                            onChange={(e) => updateSettings({breakInterval: Number(e.target.value)})}
+                            onChange={(e) => updateSettings({breakInterval: Math.max(Number(e.target.value), 1)})}
                             />
                     </label> 
                 </div>

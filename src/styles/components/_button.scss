@@ -32,3 +32,26 @@
         height: 40px;
     }
 }
+
+.smallButton{
+    @include flex-center;
+    @include paragraph;
+    
+    border-radius: $border-radius-lg;
+    border-style: none;
+    flex-shrink: 0;
+    height: 40px;
+    width: 120px;
+
+    text-align: center;
+    text-decoration: none;
+    margin-top: $spacing-sm;
+    color: $color-secondary;
+
+    background-color: $color-primary;
+    border-color: $color-primary;
+    border-width: 1px;
+        &:hover{
+            background-color: lighten($color: $color-primary, $amount: 10%);
+        }
+}

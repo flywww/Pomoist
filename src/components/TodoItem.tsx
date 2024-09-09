@@ -24,7 +24,7 @@ const NonMemorizedTodoItem = ({ id, title, completed, timeSpend }: Todo) => {
   if (!pomodoroContext) {
       throw new Error("Timer must be used within a PomodoroProvider");
   }
-  const {isActive, mode, onGoingSession, startTimer, pauseTimer, resetTimer} = pomodoroContext;
+  const {time, isActive, mode, onGoingSession, startTimer, pauseTimer, resetTimer} = pomodoroContext;
   const {completeTodo, deleteTodo ,updateTodo} = todoContext;
   const todoInputRef = useRef<HTMLInputElement>(null)
 
@@ -81,7 +81,7 @@ const NonMemorizedTodoItem = ({ id, title, completed, timeSpend }: Todo) => {
 
   //Control buttons render functions
   const renderControlButtons = () => {
-    if(todoState === "todo" && !isActive && onGoingSession?.todoId === undefined && mode === "focus"){
+    if( !isActive && onGoingSession?.todoId === undefined && mode === "focus"){
       return (
         (!editingTodo && isHovered) && <IconButton 
           onClick={handleStart}
@@ -92,7 +92,7 @@ const NonMemorizedTodoItem = ({ id, title, completed, timeSpend }: Todo) => {
         />
       )
     }
-    if(todoState === "doing"){
+    if( onGoingSession?.todoId === id && isActive){
       return(
       <>
         <IconButton 
@@ -111,7 +111,7 @@ const NonMemorizedTodoItem = ({ id, title, completed, timeSpend }: Todo) => {
         />
       </>)
     }
-    if(todoState === "pending"){
+    if( onGoingSession?.todoId === id && !isActive && time > 0){
       return(
       <>
         <IconButton 

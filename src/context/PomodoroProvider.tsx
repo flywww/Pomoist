@@ -49,7 +49,6 @@ const pomodoroReducer = (state: PomodoroState, action: PomodoroAction) :Pomodoro
         return {
             ...state, 
             isActive: false,
-            onGoingSession: initialSession
           }
       case "RESET_TIMER":
         return {
